@@ -1,0 +1,21 @@
+= Rack::Geo
+
+Rack middleware for parsing and serializing IEFT draft {Geo-Position}[http://tools.ietf.org/html/draft-daviel-html-geo-tag-08] HTTP headers.
+
+== Prerequisites
+
+* {Rack}[http://rack.rubyforge.org/]
+
+== Testing
+
+Testing requires the RSpec gem:
+
+* {Rspec}[http://rspec.info/]
+
+To test, run:
+  `rake`
+
+== License
+
+Copyright © 2010 Square, Inc.
+See LICENSE.txt in this directory.
