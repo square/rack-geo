@@ -24,6 +24,8 @@ module Rack
       MATCH_HDN = /\shdn=([0-9\.]+)(?:\s|\z)/i.freeze
       MATCH_SPD = /\sspd=([0-9\.]+)(?:\s|\z)/i.freeze
 
+      # Parse Geo-Position header:
+      # http://tools.ietf.org/html/draft-daviel-http-geo-header-05
       def parse!(value)
         reset!
         value = value.to_s.strip
