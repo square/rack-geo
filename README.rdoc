@@ -1,6 +1,6 @@
 = Rack::Geo
 
-Rack middleware for parsing and serializing IEFT draft {Geo-Position}[http://tools.ietf.org/html/draft-daviel-html-geo-tag-08] HTTP headers.
+Rack middleware for parsing and serializing IETF draft {Geo-Position}[http://tools.ietf.org/html/draft-daviel-html-geo-tag-08] HTTP headers.
 
 == Prerequisites
 
