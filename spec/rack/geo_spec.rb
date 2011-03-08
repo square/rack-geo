@@ -47,8 +47,8 @@ end
 describe Rack::Geo::Position do
 
   ZEROES = %w[0 -0 +0 0.0 -0.0 +0.0]
-  LATITUDES = %w[-90 -45 0 45 +45 90 +90]
-  LONGITUDES = %w[-180 -90 -45 0 45 +45 90 +90 180 +180]
+  LATITUDES = %w[-90 -45 0 45 +45 90 +90 45.123456789]
+  LONGITUDES = %w[-180 -90 -45 0 45 +45 90 +90 180 +180 120.123456789]
   ALTITUDES = %w[-85.5 -34 0 15 1337 8848 23300.0 +23300.0]
   UNCERTAINTIES = %w[0 0.0 0.00 1.25 32.1 455 600.123]
   HEADINGS = %w[0 0.0 0.00 1.25 32.1 180 359.123 360]
@@ -83,7 +83,7 @@ describe Rack::Geo::Position do
       described_class.from_http_header "TEST"
     end
   end
-
+  
   describe "instance method" do
     before :each do
       @instance = described_class.new
@@ -153,6 +153,15 @@ describe Rack::Geo::Position do
             @instance.parse! value
             @instance.latitude.should == latitude_f
             @instance.longitude.should == longitude_f
+          end
+          
+          it "#to_http_header should not mess up lat/long precision for #{value}" do
+            other = described_class.new
+            
+            @instance.parse!(value)
+            other.parse!(@instance.to_http_header)
+            other.latitude.should == @instance.latitude
+            other.longitude.should == @instance.longitude
           end
         end
       end

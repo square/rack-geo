@@ -72,7 +72,7 @@ module Rack
       end
 
       def to_http_header
-        value = "%f;%f" % [latitude.to_f, longitude.to_f]
+        value = "%s;%s" % [latitude.to_f.to_s, longitude.to_f.to_s]
         value += ";%f" % altitude.to_f if altitude
         value += " epu=%f" % uncertainty.to_f if uncertainty
         value += " hdn=%f" % heading.to_f if heading
