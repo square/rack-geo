@@ -20,9 +20,9 @@ module Rack
       end
 
       MATCH_LLA = /\A([+-]?[0-9\.]+);([+-]?[0-9\.]+)(?:;([+-]?[0-9\.]+))?/.freeze
-      MATCH_EPU = /\sepu=([0-9\.]+)(?:\s|\z)/i.freeze
-      MATCH_HDN = /\shdn=([0-9\.]+)(?:\s|\z)/i.freeze
-      MATCH_SPD = /\sspd=([0-9\.]+)(?:\s|\z)/i.freeze
+      MATCH_EPU = /\sepu=([0-9\.\,]+)(?:\s|\z)/i.freeze
+      MATCH_HDN = /\shdn=([0-9\.\,]+)(?:\s|\z)/i.freeze
+      MATCH_SPD = /\sspd=([0-9\.\,]+)(?:\s|\z)/i.freeze
 
       # Parse Geo-Position header:
       # http://tools.ietf.org/html/draft-daviel-http-geo-header-05
@@ -37,15 +37,15 @@ module Rack
         end
 
         if epu = MATCH_EPU.match(value)
-          @uncertainty = epu[1].to_f
+          @uncertainty = cast_as_float(epu[1])
         end
 
         if hdn = MATCH_HDN.match(value)
-          @heading = hdn[1].to_f
+          @heading = cast_as_float(hdn[1])
         end
 
         if spd = MATCH_SPD.match(value)
-          @speed = spd[1].to_f
+          @speed = cast_as_float(spd[1])
         end
 
         nil
@@ -85,6 +85,10 @@ module Rack
       end
 
       private
+
+      def cast_as_float(value)
+        value.gsub(',', '').to_f
+      end
 
       def reset!
         @latitude = @longitude = @altitude = @uncertainty = @heading = @speed = nil
