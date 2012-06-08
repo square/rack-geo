@@ -50,9 +50,9 @@ describe Rack::Geo::Position do
   LATITUDES = %w[-90 -45 0 45 +45 90 +90 45.123456789]
   LONGITUDES = %w[-180 -90 -45 0 45 +45 90 +90 180 +180 120.123456789]
   ALTITUDES = %w[-85.5 -34 0 15 1337 8848 23300.0 +23300.0]
-  UNCERTAINTIES = %w[0 0.0 0.00 1.25 32.1 455 600.123]
-  HEADINGS = %w[0 0.0 0.00 1.25 32.1 180 359.123 360]
-  SPEEDS = %w[0 0.0 0.00 1.25 32.1 999 9999.99 12345.6456]
+  UNCERTAINTIES = %w[0 0.0 0.00 1.25 32.1 455 600.123, 1,114.12]
+  HEADINGS = %w[0 0.0 0.00 1.25 32.1 180 359.123 360, 1,200.20]
+  SPEEDS = %w[0 0.0 0.00 1.25 32.1 999 9999.99 12345.6456, 1,500.35]
 
   describe "#new" do
     it "creates an instance of #{described_class}" do
@@ -185,7 +185,7 @@ describe Rack::Geo::Position do
 
       UNCERTAINTIES.each do |uncertainty|
         value = "0;0;0 epu=#{uncertainty}"
-        uncertainty_f = uncertainty.to_f
+        uncertainty_f = uncertainty.gsub(',', '').to_f
         it "\"#{value}\" should return a new instance with uncertainty = #{uncertainty_f}" do
           @instance.parse! value
           @instance.uncertainty.should == uncertainty_f
@@ -194,7 +194,7 @@ describe Rack::Geo::Position do
 
       HEADINGS.each do |heading|
         value = "0;0;0 hdn=#{heading}"
-        heading_f = heading.to_f
+        heading_f = heading.gsub(',', '').to_f
         it "\"#{value}\" should return a new instance with heading = #{heading_f}" do
           @instance.parse! value
           @instance.heading.should == heading_f
@@ -203,7 +203,7 @@ describe Rack::Geo::Position do
 
       SPEEDS.each do |speed|
         value = "0;0;0 spd=#{speed}"
-        speed_f = speed.to_f
+        speed_f = speed.gsub(',', '').to_f
         it "\"#{value}\" should return a new instance with speed = #{speed_f}" do
           @instance.parse! value
           @instance.speed.should == speed_f
